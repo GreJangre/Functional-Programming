@@ -41,6 +41,11 @@ function map(list, iteratee) {
     return new_list;
 }
 
+function log_length(value) {
+    console.log(value.length);
+    return value;
+}
+
 var temp_users = [];
 for (var i = 0, len = users.length; i < len; i++) {
     if (users[i].age < 30) { temp_users.push(users[i]); }
@@ -63,6 +68,16 @@ var ages = map(users_under_30, function(user) { return user.age; });
 console.log(ages);
 // [25, 28, 27, 24]
 
+// 함수 중첩
+console.log(log_length(
+    map(
+    filter(users, function(user) { return user.age < 30 }),
+    function(user) { return user.age; })));
+
+// 4
+// [25, 28, 27, 24]
+
+//----------
 var temp_users = [];
 for (var i = 0, len = users.length; i < len; i++) {
     if (users[i].age >= 30) { temp_users.push(users[i]); }
@@ -83,4 +98,13 @@ console.log(names);
 
 var names = map(users_over_30, function(user) { return user.name});
 console.log(names);
+// ["ID", "JM", "JE"]
+
+// 함수 중첩
+console.log(log_length(
+    map(
+    filter(users, function(user) { return user.age >= 30; }),
+    function(user) { return user.name; })));
+
+// 3
 // ["ID", "JM", "JE"]
