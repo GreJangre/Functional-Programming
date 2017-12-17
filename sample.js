@@ -33,6 +33,14 @@ function filter(list, predicate) {
     return new_list;
 }
 
+function map(list, iteratee) {
+    var new_list = [];
+    for (var i = 0, len = list.length; i < len; i++) {
+        new_list.push(iteratee(list[i]));
+    }
+    return new_list;
+}
+
 var temp_users = [];
 for (var i = 0, len = users.length; i < len; i++) {
     if (users[i].age < 30) { temp_users.push(users[i]); }
@@ -51,6 +59,10 @@ for (var i = 0, len = users_under_30.length; i < len; i++) {
 console.log(ages);
 // [25, 28, 27, 24]
 
+var ages = map(users_under_30, function(user) { return user.age; });
+console.log(ages);
+// [25, 28, 27, 24]
+
 var temp_users = [];
 for (var i = 0, len = users.length; i < len; i++) {
     if (users[i].age >= 30) { temp_users.push(users[i]); }
@@ -66,5 +78,9 @@ var names = [];
 for (var i = 0, len = users_over_30.length; i < len; i++) {
     names.push(users_over_30[i].name);
 }
+console.log(names);
+// ["ID", "JM", "JE"]
+
+var names = map(users_over_30, function(user) { return user.name});
 console.log(names);
 // ["ID", "JM", "JE"]
