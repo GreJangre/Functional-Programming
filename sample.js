@@ -27,16 +27,16 @@ var users = [
 
 function filter(list, predicate) {
     var new_list = [];
-    for (var i = 0, len = list.length; i < len; i++) {
+    for (var i = 0; i < list.length; i++) {
         if (predicate(list[i])) { new_list.push(list[i]) }
     }
     return new_list;
 }
 
-function map(list, iteratee) {
+function map(list, iterate) {
     var new_list = [];
-    for (var i = 0, len = list.length; i < len; i++) {
-        new_list.push(iteratee(list[i]));
+    for (var i = 0; i < list.length; i++) {
+        new_list.push(iterate(list[i]));
     }
     return new_list;
 }
@@ -46,65 +46,73 @@ function log_length(value) {
     return value;
 }
 
+function bvalue(key) {
+    return function(obj) {
+        return obj[key];
+    }
+}
+
+console.log(bvalue('a')({ a: 'hi', b: 'hello' }));
+// hi
+
 var temp_users = [];
-for (var i = 0, len = users.length; i < len; i++) {
+for (var i = 0; i < users.length; i++) {
     if (users[i].age < 30) { temp_users.push(users[i]); }
 }
-console.log(temp_users.length);
+//console.log(temp_users.length);
 // 4
 
 var users_under_30 = filter(users, function(user) { return user.age < 30 });
-console.log(users_under_30.length);
+//console.log(users_under_30.length);
 // 4
 
 var ages = [];
-for (var i = 0, len = users_under_30.length; i < len; i++) {
+for (var i = 0; i < users_under_30.length; i++) {
     ages.push(users_under_30[i].age);
 }
-console.log(ages);
+//console.log(ages);
 // [25, 28, 27, 24]
 
 var ages = map(users_under_30, function(user) { return user.age; });
-console.log(ages);
+//console.log(ages);
 // [25, 28, 27, 24]
 
 // 함수 중첩
 console.log(log_length(
     map(
     filter(users, function(user) { return user.age < 30 }),
-    function(user) { return user.age; })));
+    bvalue('age'))));
 
 // 4
 // [25, 28, 27, 24]
 
 //----------
 var temp_users = [];
-for (var i = 0, len = users.length; i < len; i++) {
+for (var i = 0; i < users.length; i++) {
     if (users[i].age >= 30) { temp_users.push(users[i]); }
 }
-console.log(temp_users.length);
+//console.log(temp_users.length);
 // 3
 
 var users_over_30 = filter(users, function(user) { return user.age >= 30 });
-console.log(users_over_30.length);
+//console.log(users_over_30.length);
 // 3
 
 var names = [];
-for (var i = 0, len = users_over_30.length; i < len; i++) {
+for (var i = 0; i < users_over_30.length; i++) {
     names.push(users_over_30[i].name);
 }
-console.log(names);
+//console.log(names);
 // ["ID", "JM", "JE"]
 
 var names = map(users_over_30, function(user) { return user.name});
-console.log(names);
+//console.log(names);
 // ["ID", "JM", "JE"]
 
 // 함수 중첩
 console.log(log_length(
     map(
     filter(users, function(user) { return user.age >= 30; }),
-    function(user) { return user.name; })));
-
+    bvalue('name'))));
 // 3
 // ["ID", "JM", "JE"]
